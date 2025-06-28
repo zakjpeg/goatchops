@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="ZvpOTo" name="GoatChops" projectType="guiapp" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" defines="JUCE_MODAL_LOOPS_PERMITTED=1">
+  <MAINGROUP id="qClhhV" name="GoatChops">
+    <GROUP id="{D4E36279-A0D6-3F38-3F7F-0828911866CD}" name="Source">
+      <FILE id="LeTmNh" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="oGkHvj" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="lUf2Gz" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+  <EXPORTFORMATS>
+    <VS2022 targetFolder="Builds/VisualStudio2022">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="GoatChops"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="GoatChops"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_devices" path="../../../../../../Users/Public/Documents/juce-8.0.8-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../../../Users/Public/Documents/juce-8.0.8-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../../../Users/Public/Documents/juce-8.0.8-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../Users/Public/Documents/juce-8.0.8-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../Users/Public/Documents/juce-8.0.8-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../Users/Public/Documents/juce-8.0.8-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../Users/Public/Documents/juce-8.0.8-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../../Users/Public/Documents/juce-8.0.8-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../../../Users/Public/Documents/juce-8.0.8-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../../Users/Public/Documents/juce-8.0.8-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../../../Users/Public/Documents/juce-8.0.8-windows/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2022>
+  </EXPORTFORMATS>
+</JUCERPROJECT>
