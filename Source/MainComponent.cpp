@@ -229,7 +229,7 @@ void MainComponent::transportStateChanged(TransportState newState)
 }
 
 // Function: setChops
-// Purpose: Sets chop buttons timing according to transport's length
+// Purpose: Sets ALL chop buttons timing according to transport's length
 void MainComponent::setChops()
 {
     // Store the transport length
@@ -255,7 +255,10 @@ void MainComponent::setChops()
         // Set chop button's actions
         chopButton->onClick = [this, length, i] {
             // Set transport to specific chop location
-            transport.setPosition((length / 10) * i);
+
+            chopTimings[i - 1] = (length / 10) * i;
+            transport.setPosition(chopTimings[i-1]);
+
             if (!transport.isPlaying())
             {
                 transport.start();
@@ -263,7 +266,6 @@ void MainComponent::setChops()
             transportStateChanged(Starting);
         };
         i++;
-        // DEV NOTE: Left of here, implementing name changes for the chop buttons
     }
 }
 
@@ -354,7 +356,7 @@ void MainComponent::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<f
 {
     g.setColour(juce::Colour::fromString("FFF4F7FA"));
     g.fillRoundedRectangle(thumbnailBounds, 15.0f);
-    g.setColour(juce::Colour::fromString("FFD6E2EE"));
+    g.setColour(juce::Colour::fromString("FFA0AEC0"));
     juce::Rectangle<int> thumbnailBoundsInner(25, 80, getWidth() - 50, 80);
 
     thumbnail.drawChannel(g,
@@ -389,7 +391,7 @@ void MainComponent::resized()
     // ───────────── Controls (Play/Stop) ─────────────
     juce::FlexBox controls;
     controls.flexDirection = juce::FlexBox::Direction::row;
-    controls.justifyContent = juce::FlexBox::JustifyContent::center;
+    controls.justifyContent = juce::FlexBox::JustifyContent::spaceAround;
     controls.items.add(juce::FlexItem(*playButton)
         .withMinWidth(174.0f).withMinHeight(25.0f).withMargin(5.0f));
     controls.items.add(juce::FlexItem(*stopButton)

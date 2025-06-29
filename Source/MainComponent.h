@@ -180,12 +180,14 @@ private:
     juce::AudioTransportSource transport;
     TransportState state;
 
+    // CHOP DATA
+    double chopTimings[9] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
     // PLAYBACK CONTROL BUTTONS
     juce::TextButton* loadSampleButton = nullptr;
     juce::TextButton* playButton = nullptr;
     juce::TextButton* stopButton = nullptr;
     juce::Component fileHandlingContainer;
-
 
     // AUDIO THUMBNAIL WAVEFORM
     juce::AudioThumbnailCache thumbnailCache;
@@ -195,3 +197,4 @@ private:
 };
 
 // DEV NOTE: Left off at 29:01, TAP JUCE tutorial #37 https://www.youtube.com/watch?v=vVnu-L712ho&list=PLDaaBmiCre9BAUFJ1TQHdBJ0ouPl33dGe&index=7
+// 6/27/2025 DEV NOTE: Tomorrow I want to add the playback marker, and chop markers. Maybe even make them interactable
