@@ -4,6 +4,10 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" defines="JUCE_MODAL_LOOPS_PERMITTED=1">
   <MAINGROUP id="qClhhV" name="GoatChops">
     <GROUP id="{D4E36279-A0D6-3F38-3F7F-0828911866CD}" name="Source">
+      <GROUP id="{033140F8-0C12-CD1B-9A62-E21C80F00A43}" name="Components">
+        <FILE id="YyojvQ" name="ChopButton.cpp" compile="1" resource="0" file="Source/ChopButton.cpp"/>
+        <FILE id="z5YIo0" name="ChopButton.h" compile="0" resource="0" file="Source/ChopButton.h"/>
+      </GROUP>
       <FILE id="LeTmNh" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="oGkHvj" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="lUf2Gz" name="MainComponent.cpp" compile="1" resource="0"

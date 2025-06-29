@@ -25,7 +25,7 @@ MainComponent::MainComponent()
     for (int i = 0; i < 9; i++)
     {   
         // OPTIONAL: Set chop name while initializing
-        auto* button = new juce::TextButton(/*"Chop " + juce::String(i + 1)*/);
+        auto* button = new ChopButton("Chop " + juce::String(i + 1));
         button->setLookAndFeel(&flatLookAndFeel);
         button->setColour(juce::TextButton::buttonColourId, juce::Colour::fromString("FFF0F1F4"));
         addAndMakeVisible(button);
@@ -239,25 +239,22 @@ void MainComponent::setChops()
     int i = 1;
     for (auto& chopButton : chopButtons)
     {
-        int timeSeconds = std::round((length / 10) * i);
-        int secondsLeft = timeSeconds % 60;
-        int minutesLeft = timeSeconds / 60;
-        std::stringstream ss;
-        ss << minutesLeft << ":";
-        if (secondsLeft < 10) {
-            ss << "0";
-        }
-        ss << secondsLeft;
+;
 
-        chopButton->setButtonText(ss.str());
+        // Set this ChopButton's timing
+        chopButton->setTiming((length / 10) * i);
+        int thisTiming = chopButton->getTiming();
+
+        // Update this ChopButton's visuals
+        chopButton->setButtonText(chopButton->getTimingInMinutesSeconds());
         chopButton->setColour(juce::TextButton::buttonColourId, chopColors[i - 1]);
         chopButton->repaint();
-        // Set chop button's actions
-        chopButton->onClick = [this, length, i] {
-            // Set transport to specific chop location
 
-            chopTimings[i - 1] = (length / 10) * i;
-            transport.setPosition(chopTimings[i-1]);
+        // Set chop button's actions
+        chopButton->onClick = [this, thisTiming] {
+
+            // Set transport to specific chop location
+            transport.setPosition(thisTiming);
 
             if (!transport.isPlaying())
             {

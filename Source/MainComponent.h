@@ -2,6 +2,7 @@
 
 #include <JuceHeader.h>
 #include <vector>
+#include "ChopButton.h"
 
 
 class FlatLookAndFeel : public juce::LookAndFeel_V4
@@ -148,7 +149,6 @@ private:
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    juce::OwnedArray<juce::TextButton> chopButtons;
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> playSource;
 
@@ -181,7 +181,7 @@ private:
     TransportState state;
 
     // CHOP DATA
-    double chopTimings[9] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    juce::OwnedArray<ChopButton> chopButtons;
 
     // PLAYBACK CONTROL BUTTONS
     juce::TextButton* loadSampleButton = nullptr;
