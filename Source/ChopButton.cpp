@@ -27,8 +27,12 @@ void ChopButton::mouseUp(const juce::MouseEvent& event)
     {
         // Create context menu
         juce::PopupMenu menu;
-        menu.addItem(1, "Pull 0.1s");
-        menu.addItem(2, "Push 0.1s");
+        menu.addItem(1, "Pull 5s");
+        menu.addItem(2, "Pull 1s");
+        menu.addItem(3, "Pull 0.1s");
+        menu.addItem(4, "Push 0.1s");
+        menu.addItem(5, "Push 1s");
+        menu.addItem(6, "Push 5s");
 
         // Show menu
         int result = menu.show();
@@ -36,13 +40,29 @@ void ChopButton::mouseUp(const juce::MouseEvent& event)
         // Check was user selects
         if (result == 1)
         {
-            // LOGIC GOES HERE
-            DBG("Pull 0.1s clicked");
+            timing -= 5.0f;
         }
         else if (result == 2)
         {
-            DBG("Push 0.1s clicked");
+            timing -= 1.0f;
         }
+        else if (result == 3)
+        {
+            timing -= 0.1f;
+        }
+        else if (result == 4)
+        {
+            timing += 0.1f;
+        }
+        else if (result == 5)
+        {
+            timing += 1.0f;
+        }
+        else if (result == 6)
+        {
+            timing += 5.0f;
+        }
+
     }
     else
     {

@@ -22,5 +22,10 @@ public:
 
 private:
     double timing;
+
+    // Function: getTimingInMinutesSeconds
+    // Purpose: Getter function for a ChopButton's timing in minutes/seconds (ex: 2:14)
+    // Input: none
+    // Output: a string representing this ChopButton's timing in minutes/seconds
     juce::String timingInMinutesSeconds;
 };

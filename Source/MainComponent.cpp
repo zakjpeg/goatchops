@@ -243,7 +243,7 @@ void MainComponent::setChops()
 
         // Set this ChopButton's timing
         chopButton->setTiming((length / 10) * i);
-        int thisTiming = chopButton->getTiming();
+        double thisTiming = chopButton->getTiming();
 
         // Update this ChopButton's visuals
         chopButton->setButtonText(chopButton->getTimingInMinutesSeconds());
@@ -251,10 +251,10 @@ void MainComponent::setChops()
         chopButton->repaint();
 
         // Set chop button's actions
-        chopButton->onClick = [this, thisTiming] {
+        chopButton->onClick = [this, chopButton] {
 
             // Set transport to specific chop location
-            transport.setPosition(thisTiming);
+            transport.setPosition(chopButton->getTiming());
 
             if (!transport.isPlaying())
             {
