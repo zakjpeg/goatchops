@@ -18,6 +18,9 @@ MainComponent::MainComponent()
     // Set keyboard focus to window
     setWantsKeyboardFocus(true);
 
+    // Set isFileLoaded
+    isFileLoaded = false;
+
     // Initialize audio thumbnail components
     thumbnail.addChangeListener(this);
 
@@ -107,6 +110,63 @@ void MainComponent::paint (juce::Graphics& g)
     }
     else {
         paintIfFileLoaded(g, thumbnailBounds, thumbnailBoundsInt);
+
+        // Draw playhead
+        auto drawArea = thumbnailBounds;
+        double proportion = transport.getCurrentPosition() / transport.getLengthInSeconds();
+        double xCoord = drawArea.getX() + proportion * drawArea.getWidth();
+        g.setColour(juce::Colours::green);
+        g.drawLine(xCoord, drawArea.getY(), xCoord, drawArea.getBottom(), 1.0f);
+
+        // Draw trail when playing
+        if (state == TransportState::Starting)
+        {
+            g.setColour(juce::Colour::fromString("FF64DC32")); // 100%
+            g.drawLine(xCoord - 1, drawArea.getY(), xCoord - 1, drawArea.getBottom(), 1.0f);
+
+            g.setColour(juce::Colour::fromString("8064DC32")); // 50%
+            g.drawLine(xCoord - 2, drawArea.getY(), xCoord - 2, drawArea.getBottom(), 1.0f);
+
+            g.setColour(juce::Colour::fromString("4D64DC32")); // 30%
+            g.drawLine(xCoord - 3, drawArea.getY(), xCoord - 3, drawArea.getBottom(), 1.0f);
+
+            g.setColour(juce::Colour::fromString("2664DC32")); // 15%
+            g.drawLine(xCoord - 4, drawArea.getY(), xCoord - 4, drawArea.getBottom(), 1.0f);
+
+            g.setColour(juce::Colour::fromString("1964DC32")); // 10%
+            g.drawLine(xCoord - 5, drawArea.getY(), xCoord - 5, drawArea.getBottom(), 1.0f);
+
+            g.setColour(juce::Colour::fromString("1164DC32")); // 7%
+            g.drawLine(xCoord - 6, drawArea.getY(), xCoord - 6, drawArea.getBottom(), 1.0f);
+
+            g.setColour(juce::Colour::fromString("0A64DC32")); // 4%
+            g.drawLine(xCoord - 7, drawArea.getY(), xCoord - 7, drawArea.getBottom(), 1.0f);
+
+            g.setColour(juce::Colour::fromString("0364DC32")); // 1%
+            g.drawLine(xCoord - 8, drawArea.getY(), xCoord - 8, drawArea.getBottom(), 1.0f);
+
+        }
+
+        // Draw Chop Markers on audio thumbnail
+        int i = 0;
+        for (auto chopButton : chopButtons)
+        {
+            // Get chop color
+            juce::Colour activeColor = chopColors[i];
+
+            // Find chop's proportion
+            double chopProportion = chopButton->getTiming() / transport.getTotalLength();
+            double chopXCoord = drawArea.getX() + chopProportion * drawArea.getWidth();
+
+            // Draw chop
+            g.setColour(activeColor);
+            g.drawLine(chopXCoord, drawArea.getY(), chopXCoord, drawArea.getBottom(), 1.0f);
+
+            // Increment i for next color
+            i++;
+        }
+
+
     }
         
 }
@@ -131,6 +191,9 @@ void MainComponent::loadFile()
     {
         // Store user's selection
         juce::File selectedFile = chooser.getResult();
+
+        // Update isFileLoaded
+        isFileLoaded == true;
 
         // Read the file format
         juce::AudioFormatReader* formatReader = formatManager.createReaderFor(selectedFile);
@@ -395,11 +458,20 @@ void MainComponent::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<f
         thumbnail.getTotalLength(),
         1.0f,
         1);
+
+
 }
 
 void MainComponent::timerCallback()
 {
+    // Repaint (for audio thumbnail playhead)
     repaint();
+
+    // Change transport state to "Stopping" once it's reached end of file playback
+    if (transport.getCurrentPosition() >= transport.getLengthInSeconds())
+    {
+        transportStateChanged(TransportState::Stopping);
+    }
 }
 
 void MainComponent::resized()

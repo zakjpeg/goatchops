@@ -178,6 +178,7 @@ private:
     juce::String filePath;
     juce::Label fileName;
     std::unique_ptr<juce::FileChooser> fileChooser;
+    bool isFileLoaded;
 
     // AUDIO TRANSPORT
     juce::AudioTransportSource transport;
