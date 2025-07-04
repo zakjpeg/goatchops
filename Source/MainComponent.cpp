@@ -111,12 +111,10 @@ void MainComponent::paint (juce::Graphics& g)
     else {
         paintIfFileLoaded(g, thumbnailBounds, thumbnailBoundsInt);
 
-        // Draw playhead
+        // Prepare Playhead drawing
         auto drawArea = thumbnailBounds;
         double proportion = transport.getCurrentPosition() / transport.getLengthInSeconds();
         double xCoord = drawArea.getX() + proportion * drawArea.getWidth();
-        g.setColour(juce::Colours::green);
-        g.drawLine(xCoord, drawArea.getY(), xCoord, drawArea.getBottom(), 1.0f);
 
         // Draw trail when playing
         if (state == TransportState::Starting)
@@ -147,6 +145,11 @@ void MainComponent::paint (juce::Graphics& g)
 
         }
 
+        // Draw Playhead
+        g.setColour(juce::Colours::green);
+        g.drawLine(xCoord, drawArea.getY(), xCoord, drawArea.getBottom(), 1.0f);
+
+
         // Draw Chop Markers on audio thumbnail
         int i = 0;
         for (auto chopButton : chopButtons)
@@ -155,12 +158,12 @@ void MainComponent::paint (juce::Graphics& g)
             juce::Colour activeColor = chopColors[i];
 
             // Find chop's proportion
-            double chopProportion = chopButton->getTiming() / transport.getTotalLength();
+            double chopProportion = chopButton->getTiming() / transport.getLengthInSeconds();
             double chopXCoord = drawArea.getX() + chopProportion * drawArea.getWidth();
 
             // Draw chop
             g.setColour(activeColor);
-            g.drawLine(chopXCoord, drawArea.getY(), chopXCoord, drawArea.getBottom(), 1.0f);
+            g.drawLine(chopXCoord, drawArea.getY(), chopXCoord, drawArea.getBottom(), 1.5f);
 
             // Increment i for next color
             i++;

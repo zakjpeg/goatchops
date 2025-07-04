@@ -167,9 +167,9 @@ private:
         juce::Colour::fromString("FFF687B3"), // Pale Pink
         juce::Colour::fromString("FFB794F4"), // Soft Lavender
         juce::Colour::fromString("FF68D391"), // Fresh Green
+        juce::Colour::fromString("FFC3DAFE"), // Soft Light Blue
         juce::Colour::fromString("FFA0AEC0"), // Cool Slate
         juce::Colour::fromString("FFE2E8F0"), // Subtle Gray
-        juce::Colour::fromString("FFC3DAFE"), // Soft Light Blue
         juce::Colour::fromString("FFD6BCFA")  // Pastel Purple
     };
 
