@@ -64,6 +64,13 @@ MainComponent::MainComponent()
     addAndMakeVisible(fileName);
     addAndMakeVisible(*loadSampleButton);
 
+    // Initialize toggleHoldButton
+    toggleHold = false;
+    toggleHoldButton = new juce::TextButton("Toggle Hold");
+    toggleHoldButton->onClick = [this] {
+        toggleHold = !toggleHold;
+        };
+    addAndMakeVisible(*toggleHoldButton);
 
     // Initialize Transport State
     state = Stopped;
@@ -71,9 +78,10 @@ MainComponent::MainComponent()
     // allow for .wav and .aif files in sample loading process
     formatManager.registerBasicFormats();
 
+    // Start timer for Audio Thumbnail playhead
+    startTimer(40);
 
-
-
+    // REQUIRED
     setSize(600, 700);
     setAudioChannels(0, 2);
 }
@@ -270,7 +278,12 @@ void MainComponent::setChops()
 // Purpose: Detects and handles user keyboard input
 bool MainComponent::keyPressed(const juce::KeyPress& key)
 {
-    if (key == juce::KeyPress::numberPad0)
+    // Prohibit repeated key inputs when user holds
+    if (key == activeKey)
+    {
+        return true;
+    }
+    else if (key == juce::KeyPress::numberPad0)
     {
         stopButton->triggerClick();
     }
@@ -315,8 +328,28 @@ bool MainComponent::keyPressed(const juce::KeyPress& key)
         chopButtons[8]->triggerClick();
     }
 
+    activeKey = key;
+
     return true;
 
+}
+
+bool MainComponent::keyStateChanged(bool isKeyDown)
+{
+    // Stop the transport if key is released and toggleHold is on
+    if (!isKeyDown && toggleHold && !juce::KeyPress::isKeyCurrentlyDown(activeKey.getKeyCode()))
+    {
+        transport.stop();
+    }
+
+    // If active key isn't being pressed, reset activekey
+    if (!juce::KeyPress::isKeyCurrentlyDown(activeKey.getKeyCode()))
+    {
+        activeKey = juce::KeyPress();
+    }
+
+    // This is insignificant
+    return isKeyDown;
 }
 
 void MainComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
@@ -364,6 +397,11 @@ void MainComponent::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<f
         1);
 }
 
+void MainComponent::timerCallback()
+{
+    repaint();
+}
+
 void MainComponent::resized()
 {
     juce::FlexBox fb;
@@ -383,15 +421,18 @@ void MainComponent::resized()
         .withMinWidth(174.0f).withMinHeight(50.0f).withMargin(5.0f));
 
     fb.items.add(juce::FlexItem(fileHandlingContainer)
-        .withMinWidth(600.0f).withMinHeight(50.0f).withMargin(0.0f));
+        .withMinWidth(600.0f).withMinHeight(50.0f).withMargin(0.0f)
+        .withAlignSelf(juce::FlexItem::AlignSelf::center));
 
-    // ───────────── Controls (Play/Stop) ─────────────
+    // ───────────── Controls (Play/Stop/ToggleHold) ─────────────
     juce::FlexBox controls;
     controls.flexDirection = juce::FlexBox::Direction::row;
-    controls.justifyContent = juce::FlexBox::JustifyContent::spaceAround;
+    controls.justifyContent = juce::FlexBox::JustifyContent::spaceBetween;
     controls.items.add(juce::FlexItem(*playButton)
         .withMinWidth(174.0f).withMinHeight(25.0f).withMargin(5.0f));
     controls.items.add(juce::FlexItem(*stopButton)
+        .withMinWidth(174.0f).withMinHeight(25.0f).withMargin(5.0f));
+    controls.items.add(juce::FlexItem(*toggleHoldButton)
         .withMinWidth(174.0f).withMinHeight(25.0f).withMargin(5.0f));
 
     fb.items.add(juce::FlexItem(controls)

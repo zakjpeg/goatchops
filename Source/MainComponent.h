@@ -106,7 +106,8 @@ public:
     your controls and content.
 */
 class MainComponent  : public juce::AudioAppComponent,
-                       public juce::ChangeListener
+                       public juce::ChangeListener,
+                       private juce::Timer // for Audio Thumbnail playhead
 {
 public:
     //==============================================================================
@@ -140,11 +141,13 @@ private:
     void transportStateChanged(TransportState newState);
     void setChops();
     bool keyPressed(const juce::KeyPress& key) override;
+    bool keyStateChanged(bool isKeyDown) override;
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
     void transportSourceChanged();
     void thumbnailChanged();
     void paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<float>& thumbnailBounds, const juce::Rectangle<int>& thumbnailBoundsInt);
     void paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<float>& thumbnailBounds, const juce::Rectangle<int>& thumbnailBoundsInt);
+    void timerCallback() override;
 
 
     // This reference is provided as a quick way for your editor to
@@ -192,6 +195,11 @@ private:
     // AUDIO THUMBNAIL WAVEFORM
     juce::AudioThumbnailCache thumbnailCache;
     juce::AudioThumbnail thumbnail;
+
+    // TOGGLE HOLD BUTTON
+    juce::TextButton* toggleHoldButton;
+    bool toggleHold;
+    juce::KeyPress activeKey;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainComponent);
 };

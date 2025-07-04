@@ -40,27 +40,27 @@ void ChopButton::mouseUp(const juce::MouseEvent& event)
         // Check was user selects
         if (result == 1)
         {
-            timing -= 5.0f;
+            shiftTiming(-5.0f);
         }
         else if (result == 2)
         {
-            timing -= 1.0f;
+            shiftTiming(-1.0f);
         }
         else if (result == 3)
         {
-            timing -= 0.1f;
+            shiftTiming(-0.1f);
         }
         else if (result == 4)
         {
-            timing += 0.1f;
+            shiftTiming(0.1f);
         }
         else if (result == 5)
         {
-            timing += 1.0f;
+            shiftTiming(1.0f);
         }
         else if (result == 6)
         {
-            timing += 5.0f;
+            shiftTiming(5.0f);
         }
 
     }
@@ -69,6 +69,12 @@ void ChopButton::mouseUp(const juce::MouseEvent& event)
         // Continue with mouse event if it's not rightclick
         TextButton::mouseUp(event);
     }
+}
+
+void ChopButton::shiftTiming(const double inShiftTiming)
+{
+    this->setTiming(this->getTiming() + inShiftTiming);
+    this->setButtonText(this->getTimingInMinutesSeconds());
 }
 
 // Function: setTiming
@@ -81,19 +87,6 @@ void ChopButton::setTiming(const double inTiming)
     // Set timing
     timing = inTiming;
 
-    // Build new timingInMinutesSeconds
-    int timeSeconds = std::round(inTiming);
-    int secondsLeft = timeSeconds % 60;
-    int minutesLeft = timeSeconds / 60;
-    std::stringstream ss;
-    ss << minutesLeft << ":";
-    if (secondsLeft < 10) {
-        ss << "0";
-    }
-    ss << secondsLeft;
-    
-    // Update timingInMinutesSeconds
-    timingInMinutesSeconds = ss.str();
 }
 
 // Function: getTiming
@@ -111,5 +104,18 @@ double ChopButton::getTiming()
 // Output: a string representing this ChopButton's timing in minutes/seconds
 juce::String ChopButton::getTimingInMinutesSeconds()
 {
+    // Build new timingInMinutesSeconds
+    int timeSeconds = std::round(timing);
+    int secondsLeft = timeSeconds % 60;
+    int minutesLeft = timeSeconds / 60;
+    std::stringstream ss;
+    ss << minutesLeft << ":";
+    if (secondsLeft < 10) {
+        ss << "0";
+    }
+    ss << secondsLeft;
+
+    // Update timingInMinutesSeconds
+    timingInMinutesSeconds = ss.str();
     return timingInMinutesSeconds;
 }

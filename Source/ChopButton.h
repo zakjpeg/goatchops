@@ -16,6 +16,7 @@ class ChopButton : public juce::TextButton
 public:
     ChopButton(const juce::String& name);
     void mouseUp(const juce::MouseEvent& event) override;
+    void shiftTiming(const double inShiftTiming);
     void setTiming(const double inTiming);
     double getTiming();
     juce::String getTimingInMinutesSeconds();
